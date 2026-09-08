@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nazuro</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+html{scroll-behavior:smooth}
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  -webkit-user-select:none;
+  user-select:none;
+  font-family:Audiowide,sans-serif;
+  background:#000;
+  color:#fff;
+  overflow-x:hidden;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+/* ================= SECURITY WATERMARK ================= */
+body::before {
+  content: "Nazuro © Protected";
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  font-size: 5vw;
+  color: rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+  z-index: 99999;
+  white-space: nowrap;
+  width: 100vw;
+  text-align: center;
+}
+
+@media print { html, body { display: none !important; } }
+
+/* ================= NAV ================= */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 30px;
+  backdrop-filter:blur(10px);
+  background:rgba(0,0,0,.7);
+  border-bottom:1px solid rgba(255,255,255,.2);
+}
+.link a{
+  color:#fff;
+  text-decoration:none;
+  margin-left:22px;
+  position:relative;
+}
+.link a::after{
+  content:"";
+  position:absolute;
+  left:0;bottom:-5px;
+  width:0;height:1px;
+  background:#fff;
+  transition:.4s;
+}
+.link a:hover::after{width:100%}
+
+/* ================= HERO ================= */
+.hero{height:90vh;position:relative}
+.back-video{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-1;
+}
+.hero-content{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:rgba(0,0,0,.45);
+}
+.hero-content h1{
+  font-size:44px;
+  text-shadow:0 0 20px rgba(255,255,255,.4);
+}
+.hero-content p{opacity:.85;margin:14px 0 26px}
+
+/* ================= BUTTON ================= */
+.button button{
+  padding:12px 26px;
+  margin:6px;
+  border:1px solid #fff;
+  background:none;
+  color:#fff;
+  cursor:pointer;
+  transition:.4s;
+}
+.button button:hover{
+  background:#fff;
+  color:#000;
+  box-shadow:0 0 30px rgba(255,255,255,.6);
+}
+
+/* ================= OVERVIEW ================= */
+.overview{
+  padding:120px 20px;
+  text-align:center;
+  background:radial-gradient(circle at top,#111,#000);
+}
+.section-title{font-size:36px}
+.sub{opacity:.7;margin-bottom:70px}
+
+.overview-box{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:40px;
+}
+
+.card{
+  border:1px solid rgba(255,255,255,.25);
+  padding:50px 30px;
+  transition:.7s cubic-bezier(.19,1,.22,1);
+  position:relative;
+  overflow:hidden;
+}
+.card i{font-size:38px;margin-bottom:20px}
+.card:hover{
+  background:#fff;
+  color:#000;
+  transform:translateY(-18px) scale(1.04);
+  box-shadow:0 40px 100px rgba(255,255,255,.2);
+}
+
+/* ================= CAROUSEL (FIXED) ================= */
+.carousel{
+  overflow:hidden;
+  margin-top:100px;
+  padding-bottom: 50px; /* Space for hover effect */
+}
+.track{
+  display:flex;
+  gap:40px; /* More gap for better look */
+  animation:scroll 25s linear infinite;
+  padding-left: 40px;
+}
+
+.book{
+  /* Size Fix for Portrait Books */
+  min-width: 220px;
+  height: 330px; 
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+.book img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Fills the box cleanly */
+  object-position: top center; /* Focuses on faces/top part */
+  transition: 0.5s;
+}
+
+/* Text Overlay Gradient */
+.book::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 60%;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+}
+
+.book span {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+  font-size: 18px;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 10px rgba(0,0,0,1);
+}
+
+/* Hover Effect */
+.book:hover {
+  transform: scale(1.1);
+  box-shadow: 0 20px 60px rgba(255,255,255,0.3);
+  border-color: #fff;
+  z-index: 10;
+}
+
+@keyframes scroll{
+  from{transform:translateX(0)}
+  to{transform:translateX(-100%)} /* Fixed scroll logic */
+}
+
+/* ===== FOOTER ===== */
+.footer{
+  position:relative;
+  background:#000;
+  padding:90px 20px 30px;
+  border-top:1px solid rgba(255,255,255,.15);
+  overflow:hidden;
+}
+.footer::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.18),transparent);
+  animation:footerGlow 8s linear infinite;
+}
+@keyframes footerGlow{
+  from{transform:translateX(-100%)}
+  to{transform:translateX(100%)}
+}
+.footer-container{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:50px;
+}
+.footer-box h3, .footer-box h2{ margin-bottom:15px; letter-spacing:1px; }
+.footer-box p{ font-size:14px; line-height:1.8; opacity:.8; }
+.footer-box a{ display:block; color:#fff; text-decoration:none; font-size:14px; margin:10px 0; opacity:.75; transition:.4s; }
+.footer-box a:hover{ opacity:1; transform:translateX(8px); }
+.socials a{ font-size:22px; margin-right:18px; display:inline-block; transition:.5s; }
+.socials a:hover{ transform:translateY(-8px) scale(1.2); }
+.footer-bottom{ display:flex; justify-content:space-between; margin-top:60px; padding-top:20px; border-top:1px solid rgba(255,255,255,.15); font-size:13px; opacity:.7; }
+
+/* ================= MUSIC BTN ================= */
+#musicBtn{
+  position:fixed;
+  top: 50px;
+  width:52px;height:52px;
+  border-radius:50%;
+  border:1px solid #fff;
+  background:rgba(0,0,0,.6);
+  color:#fff;
+  cursor:pointer;
+  z-index:9999;
+}
+#musicBtn:hover{ background:#fff; color:#000; }
+
+@media (max-width: 768px){
+
+  .nav{
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .logo{
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+
+  .link{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+  }
+
+  .link a{
+    margin: 0;
+    font-size: 14px;
+    padding: 6px 0;
+  }
+}
+@media (max-width: 480px){
+
+  .link{
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .link a{
+    font-size: 15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop muted>
+  <source src="Naeleck_-_Burning_Wish__feat._Roniit____Slap_House___NCS_-_Copyright_Free_Music(256k).mp3" type="audio/mp3">
+</audio>
+<audio id="hoverSound">
+  <source src="hover.mp3" type="audio/mp3">
+</audio>
+<button id="musicBtn"><i class="fas fa-volume-xmark"></i></button>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="logo">Nazuro</div>
+  <div class="link">
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="book.html"><i class="fas fa-book"></i> Demo</a>
+    <a href="about.html"><i class="fas fa-envelope"></i> About</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <video class="back-video" autoplay loop muted playsinline>
+    <source src="zenitsu-white.1920x1080.mp4" type="video/mp4">
+  </video>
+  <div class="hero-content">
+    <h1>World of Immortality</h1>
+    <p>This is not just Sir Ivan's story or his mission,
+It has this mystery, this message. That will challenge your core beliefs, 
+It will open your mind
+It's your awakening.
+A journey through passion, chaos, and the divine madness that binds creation itself. A divine Game ignored by none AND played by EVERYONE!</p>
+    <div class="button">
+      <button onclick="goRead()">Read Now</button>
+      <button onclick="goExplore()">Explore</button>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="overview" id="books">
+  <h2 class="section-title">Explore Our Books</h2>
+  <p class="sub">Premium immersive reading</p>
+
+  <div class="overview-box">
+    <div class="card"><i class="fas fa-book"></i><h3>Instant Read</h3><p>Start without loading.</p></div>
+    <div class="card"><i class="fas fa-layer-group"></i><h3>Chapters</h3><p>Clean story flow.</p></div>
+    <div class="card"><i class="fas fa-bolt"></i><h3>Fast</h3><p>No distraction UI.</p></div>
+  </div>
+
+  <div class="carousel">
+    <div class="track">
+      <!-- Book 1 -->
+      <div class="book">
+        <img src="lisa-buijteweg-19 (1).jpg" alt="Immortality">
+        <span>IMMORTALITY</span>
+      </div>
+      <!-- Book 2 -->
+      <div class="book">
+        <img src="mayleen.png" alt="Dark Verse">
+        <span>DARK VERSE</span>
+      </div>
+      <!-- Book 3 -->
+      <div class="book">
+        <img src="ruoxin-zhang-.jpg" alt="Void Soul">
+        <span>VOID SOUL</span>
+      </div>
+      <!-- Book 4 -->
+      <div class="book">
+        <img src="ruoxin-zhang-1.jpg" alt="Eternal">
+        <span>ETERNAL</span>
+      </div>
+       <!-- Book 5 -->
+      <div class="book">
+        <img src="ruoxin-zhang-opal-ruoxin-zhang.jpg" alt="Opal">
+        <span>OPAL</span>
+      </div>
+      <!-- Repeat for seamless loop effect -->
+      <div class="book">
+        <img src="lisa-buijteweg-19 (1).jpg" alt="Immortality">
+        <span>IMMORTALITY</span>
+      </div>
+      <div class="book">
+        <img src="mayleen.png" alt="Dark Verse">
+        <span>DARK VERSE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-box brand">
+      <h2>Nazuro</h2>
+      <p>A dark, cinematic and immersive digital reading universe crafted for storytellers and dreamers.</p>
+      <div class="socials">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+      </div>
+    </div>
+    <div class="footer-box">
+      <h3>Explore</h3>
+      <a href="#"><i class="fas fa-angle-right"></i> Home</a>
+      <a href="#books"><i class="fas fa-angle-right"></i> Books</a>
+      <a href="about.html"><i class="fas fa-angle-right"></i> About</a>
+    </div>
+    <div class="footer-box">
+      <h3>Contact</h3>
+      <p><i class="fas fa-envelope"></i> sajidansari86172@gmail.com</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Nazuro</span>
+    <span class="creator">Created by <b>Nazuro</b></span>
+  </div>
+</footer>
+
+<script>
+function goRead(){ window.location.href = "read.html"; }
+function goExplore(){ window.location.href = "explore.html"; }
+const music=document.getElementById("bgMusic");
+const btn=document.getElementById("musicBtn");
+const icon=btn.querySelector("i");
+const hover=document.getElementById("hoverSound");
+
+document.addEventListener("click",()=>{
+  music.muted=false; music.play(); icon.className="fas fa-volume-high";
+},{once:true});
+
+btn.onclick=e=>{
+  e.stopPropagation();
+  if(music.paused){music.play();icon.className="fas fa-volume-high";}
+  else{music.pause();icon.className="fas fa-volume-xmark";}
+};
+
+document.querySelectorAll("button,a,.card,.book").forEach(el=>{
+  el.addEventListener("mouseenter",()=>{
+    hover.currentTime=0; hover.volume=.25; hover.play();
+  });
+});
+
+/* PROTECTION SCRIPT */
+document.addEventListener("mouseleave", () => { document.body.style.filter = "blur(20px)"; });
+document.addEventListener("mouseenter", () => { document.body.style.filter = "none"; });
+window.addEventListener("blur", () => { document.body.style.opacity = "0"; });
+window.addEventListener("focus", () => { document.body.style.opacity = "1"; });
+document.addEventListener("keydown", async (e) => {
+  if (e.key === "PrintScreen") {
+    document.body.style.visibility = "hidden";
+    alert("Protected Content");
+    try { await navigator.clipboard.writeText(""); } catch(err){}
+    document.body.style.visibility = "visible";
+  }
+  if (e.key === "F12" || (e.ctrlKey && ["U","S","P","I","J"].includes(e.key.toUpperCase()))) {
+    e.preventDefault();
+  }
+});
+document.addEventListener("contextmenu", e => e.preventDefault());
+(function(){
+  setInterval(() => {
+    if (window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160) {
+      document.body.innerHTML = '<h1 style="color:red;text-align:center;margin-top:20%">ACCESS DENIED</h1>';
+    }
+  }, 1000);
+})();
+</script>
+<script src="core.js?v=<?php echo time(); ?>"></script>
+</body>
+</html>

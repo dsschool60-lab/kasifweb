@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading - Nazuro</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+@media (max-width: 768px){
+
+  .nav{
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .logo{
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+
+  .link{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+  }
+
+  .link a{
+    margin: 0;
+    font-size: 14px;
+    padding: 6px 0;
+  }
+}
+@media (max-width: 480px){
+
+  .link{
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .link a{
+    font-size: 15px;
+  }
+}
+/* ================= GLOBAL & THEME ================= */
+html{scroll-behavior:smooth}
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  -webkit-user-select:none;
+  user-select:none;
+  font-family:'Rajdhani', sans-serif; /* Readable font for main text */
+  background:#050505;
+  color:#ccc;
+  overflow-x:hidden;
+  transition: opacity 0.2s, filter 0.2s;
+}
+
+h1, h2, h3, .logo, .nav a, button, .chapter-head {
+    font-family: 'Audiowide', cursive; /* Sci-fi font for headers */
+}
+
+/* ================= SECURITY LAYERS ================= */
+/* Watermark */
+body::before {
+  content: "Nazuro © Protected";
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  font-size: 6vw;
+  color: rgba(255, 255, 255, 0.03);
+  pointer-events: none;
+  z-index: 9999;
+  white-space: nowrap;
+}
+
+@media print { html, body { display: none !important; } }
+
+/* ================= NAV ================= */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 30px;
+  background:rgba(0,0,0,.9);
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.logo{color:#fff; font-size: 1.2rem;}
+.link a{
+  color:#aaa;
+  text-decoration:none;
+  margin-left:20px;
+  font-size: 0.9rem;
+  transition:.3s;
+}
+.link a:hover{color:#fff; text-shadow:0 0 10px rgba(255,255,255,.5);}
+
+/* ================= READING PROGRESS ================= */
+.progress-container {
+  position: fixed;
+  top: 60px; /* Below nav */
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #111;
+  z-index: 999;
+}
+.progress-bar {
+  height: 100%;
+  background: #fff;
+  width: 0%;
+  box-shadow: 0 0 10px #fff;
+}
+
+/* ================= READING CONTAINER ================= */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 20px 150px; /* Bottom padding for footer/controls */
+}
+
+/* Header Info */
+.book-header {
+    text-align: center;
+    margin-bottom: 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 40px;
+}
+.book-header span {
+    color: #555;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.book-header h1 {
+    color: #fff;
+    font-size: 3rem;
+    margin: 10px 0;
+    text-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+/* Content Text */
+.content {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: #ddd;
+    text-align: justify;
+}
+.content p {
+    margin-bottom: 25px;
+}
+.content p::first-letter {
+    font-family: 'Audiowide';
+    font-size: 3rem;
+    float: left;
+    margin-right: 10px;
+    line-height: 1;
+    color: #fff;
+}
+
+/* ================= CONTROLS ================= */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.btn-chapter {
+    padding: 15px 30px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    font-family: 'Audiowide';
+    cursor: pointer;
+    transition: 0.4s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.btn-chapter:hover {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 0 30px rgba(255,255,255,0.4);
+}
+
+/* ================= FOOTER (Minimal) ================= */
+.mini-footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.8rem;
+    color: #444;
+    margin-top: 50px;
+}
+
+/* ================= MUSIC BTN ================= */
+#musicBtn{
+  position:fixed;
+  bottom: 30px; right: 30px;
+  width:50px;height:50px;
+  border-radius:50%;
+  border:1px solid #333;
+  background:rgba(0,0,0,.8);
+  color:#fff;
+  cursor:pointer;
+  z-index:9999;
+  transition: 0.3s;
+}
+#musicBtn:hover{
+  border-color: #fff;
+  box-shadow: 0 0 15px rgba(255,255,255,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<button id="musicBtn"><i class="fas fa-music"></i></button>
+<audio id="bgMusic" loop>
+  <source src="ambient-dark.mp3" type="audio/mp3">
+</audio>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="logo">Nazuro</div>
+  <div class="link">
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="book.html"><i class="fas fa-book"></i> Demo</a>
+    <a href="about.html"><i class="fas fa-envelope"></i> About</a>
+  </div>
+</header>
+
+<!-- PROGRESS BAR -->
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+</div>
+
+<!-- MAIN READING CONTENT -->
+<div class="container">
+    
+    <div class="book-header">
+        <span>Volume 1 • Awakening</span>
+        <h1>The Void Soul</h1>
+        <span>Chapter 1: The Beginning of End</span>
+    </div>
+
+    <div class="content">
+        <p>
+            The sky was not black, but a deep, bruised purple that suggested the universe itself was bleeding. Kael stood on the precipice of the shattered world, looking down into the abyss that had once been his home. The wind howled, not with the sound of air rushing past stone, but with the whispers of a billion lost souls.
+        </p>
+        <p>
+            "It is time," the voice echoed. It didn't come from behind him, but from inside his own mind—a cold, metallic resonance that vibrated through his very bones.
+        </p>
+        <p>
+            He tightened his grip on the hilt of the Obsidian Blade. The metal was cold enough to burn, pulsating with a faint, rhythmic heartbeat. This was the curse of immortality: not to live forever, but to remember everything that had died.
+        </p>
+        <p>
+            Steps echoed on the crystalline floor behind him. He didn't turn. He knew who it was. Only one other entity could survive in this vacuum of reality.
+        </p>
+        <p>
+            "You cannot stop the cycle, Kael," the figure said, its voice smooth like velvet over gravel. "The stars must die so that the void may feed. It is the only truth."
+        </p>
+        <p>
+            Kael finally turned. His eyes, once human, were now pools of swirling liquid silver. "Then let the void choke on my wrath."
+        </p>
+        <p>
+            The horizon exploded into silence.
+        </p>
+        <!-- Add more paragraphs for scrolling effect -->
+        <p>
+             The darkness surged forward, a tidal wave of nothingness that sought to erase the very concept of existence. Kael did not flinch. He had seen civilizations rise from dust and return to it in the blink of a cosmic eye. What was one more apocalypse to a man who had forgotten how to count the years?
+        </p>
+        <p>
+            He drew the blade. The sound was like a scream cut short. The purple sky cracked, fissures of blinding white light tearing through the fabric of the dimension. It was beautiful. It was terrifying. It was the end.
+        </p>
+    </div>
+
+    <div class="controls">
+        <button class="btn-chapter" onclick="alert('First Chapter')"><i class="fas fa-arrow-left"></i> Prev</button>
+        <button class="btn-chapter" onclick="window.location.href='#'">Next <i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <div class="mini-footer">
+        Nazuro © 2025 • Secure Reading Environment
+    </div>
+
+</div>
+
+<script>
+// SCROLL PROGRESS
+window.onscroll = function() {
+  let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  let scrolled = (winScroll / height) * 100;
+  document.getElementById("myBar").style.width = scrolled + "%";
+};
+
+// MUSIC TOGGLE
+const music = document.getElementById("bgMusic");
+const btn = document.getElementById("musicBtn");
+let isPlaying = false;
+
+btn.addEventListener("click", () => {
+    if(isPlaying){
+        music.pause();
+        btn.innerHTML = '<i class="fas fa-music"></i>';
+    } else {
+        music.play();
+        btn.innerHTML = '<i class="fas fa-pause"></i>';
+    }
+    isPlaying = !isPlaying;
+});
+
+// ================= SECURITY SCRIPT (SAME AS INDEX) =================
+
+// 1. Mouse Leave Blur
+document.addEventListener("mouseleave", () => {
+    document.body.style.filter = "blur(20px)";
+});
+document.addEventListener("mouseenter", () => {
+    document.body.style.filter = "none";
+});
+
+// 2. Window Blur Hide
+window.addEventListener("blur", () => {
+    document.body.style.opacity = "0";
+});
+window.addEventListener("focus", () => {
+    document.body.style.opacity = "1";
+});
+
+// 3. Key Protection
+document.addEventListener("keydown", async (e) => {
+    if (e.key === "PrintScreen") {
+        document.body.style.visibility = "hidden";
+        try { await navigator.clipboard.writeText(""); } catch(err){}
+        alert("Protected Content");
+        document.body.style.visibility = "visible";
+    }
+    if (e.key === "F12" || (e.ctrlKey && ["u","s","p"].includes(e.key.toLowerCase()))) {
+        e.preventDefault();
+    }
+});
+
+// 4. No Right Click
+document.addEventListener("contextmenu", e => e.preventDefault());
+
+</script>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>About | Nazuro</title>
+
+<!-- Google Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+@media (max-width: 768px){
+
+  .nav{
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .logo{
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+
+  .link{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+  }
+
+  .link a{
+    margin: 0;
+    font-size: 14px;
+    padding: 6px 0;
+  }
+}
+@media (max-width: 480px){
+
+  .link{
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .link a{
+    font-size: 15px;
+  }
+}
+/* ===== BASE ===== */
+html{scroll-behavior:smooth}
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:"Audiowide",sans-serif;
+  background:#000;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+a{color:#fff;text-decoration:none}
+
+/* ===== NAV ===== */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 30px;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.3);
+}
+
+.logo{font-size:22px;letter-spacing:2px}
+
+.link a{
+  margin-left:20px;
+  font-size:14px;
+  position:relative;
+}
+
+.link a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-5px;
+  width:0;
+  height:1px;
+  background:#fff;
+  transition:.4s;
+}
+.link a:hover::after{width:100%}
+
+/* ===== HERO ===== */
+.about-hero{
+  height:65vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:
+    radial-gradient(circle at center,rgba(255,255,255,.08),transparent 60%),
+    linear-gradient(to bottom,rgba(0,0,0,.3),#000);
+}
+
+.about-hero h1{
+  font-size:46px;
+  letter-spacing:4px;
+  margin-bottom:12px;
+  text-shadow:0 0 40px rgba(255,255,255,.35);
+}
+
+.about-hero p{
+  opacity:.75;
+  font-size:15px;
+}
+
+/* ===== SECTION BASE ===== */
+section{
+  padding:110px 20px;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+}
+
+/* ===== STORY ===== */
+.story{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:60px;
+}
+
+.story-box{
+  position:relative;
+  border:1px solid rgba(255,255,255,.25);
+  padding:45px;
+  background:rgba(255,255,255,.02);
+  transition:.8s cubic-bezier(.19,1,.22,1);
+  overflow:hidden;
+}
+
+.story-box::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.4),transparent);
+  opacity:0;
+}
+
+.story-box:hover::before{opacity:1}
+
+.story-box:hover{
+  transform:translateY(-18px) scale(1.04);
+  background:#fff;
+  color:#000;
+  box-shadow:0 40px 120px rgba(255,255,255,.25);
+}
+
+.story-box h2{
+  font-size:30px;
+  margin-bottom:15px;
+}
+
+.story-box p{
+  line-height:1.9;
+  opacity:.85;
+}
+
+/* ===== MISSION ===== */
+.mission{
+  text-align:center;
+}
+
+.mission h2{
+  font-size:34px;
+  margin-bottom:20px;
+  letter-spacing:3px;
+}
+
+.mission p{
+  max-width:750px;
+  margin:auto;
+  line-height:1.9;
+  opacity:.8;
+}
+
+/* ===== VALUES ===== */
+.values{
+  margin-top:70px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:40px;
+}
+
+.value-box{
+  position:relative;
+  border:1px solid rgba(255,255,255,.3);
+  padding:40px 25px;
+  text-align:center;
+  background:rgba(255,255,255,.02);
+  transition:.7s cubic-bezier(.19,1,.22,1);
+  overflow:hidden;
+}
+
+.value-box i{
+  font-size:30px;
+  margin-bottom:15px;
+}
+
+.value-box::after{
+  content:"";
+  position:absolute;
+  left:-100%;
+  bottom:0;
+  width:100%;
+  height:2px;
+  background:linear-gradient(90deg,transparent,#fff,transparent);
+}
+
+.value-box:hover::after{
+  left:100%;
+  transition:1s;
+}
+
+.value-box:hover{
+  transform:translateY(-14px) scale(1.05);
+  background:#fff;
+  color:#000;
+  box-shadow:0 30px 90px rgba(255,255,255,.3);
+}
+
+/* ===== SCROLL REVEAL ===== */
+@media(prefers-reduced-motion:no-preference){
+  section{
+    animation:reveal linear both;
+    animation-timeline:view();
+    animation-range:entry 0% cover 40%;
+  }
+}
+
+@keyframes reveal{
+  from{
+    opacity:0;
+    transform:translateY(80px) scale(.95);
+    filter:blur(6px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+    filter:blur(0);
+  }
+}
+
+/* ===== FOOTER ===== */
+.footer{
+  position:relative;
+  padding:70px 20px;
+  text-align:center;
+  border-top:1px solid rgba(255,255,255,.25);
+  overflow:hidden;
+}
+
+.footer::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.2),transparent);
+  animation:footerGlow 6s linear infinite;
+}
+
+@keyframes footerGlow{
+  from{transform:translateX(-100%)}
+  to{transform:translateX(100%)}
+}
+
+.footer-content{
+  position:relative;
+  z-index:1;
+}
+
+.footer-content h3{
+  letter-spacing:3px;
+  margin-bottom:10px;
+}
+
+.footer-content p{
+  font-size:13px;
+  opacity:.7;
+}
+
+.socials{
+  margin:25px 0;
+}
+
+.socials a{
+  font-size:22px;
+  margin:0 12px;
+  display:inline-block;
+  transition:.4s;
+}
+
+.socials a:hover{
+  transform:translateY(-6px) scale(1.2);
+}
+
+.footer-bottom{
+  margin-top:30px;
+  font-size:12px;
+  letter-spacing:2px;
+  opacity:.6;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .story{grid-template-columns:1fr}
+  .about-hero h1{font-size:32px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="logo">Nazuro</div>
+  <div class="link">
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="book.html"><i class="fas fa-book"></i> Books</a>
+    <a href="about.html"><i class="fas fa-user"></i> About</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="about-hero">
+  <div>
+    <h1>ABOUT THIS WORLD</h1>
+    <p>Stories are written to asujenansari — they are remembered.</p>
+  </div>
+</section>
+
+<!-- STORY -->
+<section>
+  <div class="container story">
+    <div class="story-box">
+      <h2>The Beginning</h2>
+      <p>
+        Nazuro was born from silence,
+        designed for readers who seek depth over noise.
+        <br><br>
+        Every chapter unfolds slowly, allowing the story
+        to breathe and stay with the reader.
+      </p>
+    </div>
+
+    <div class="story-box">
+      <h2>The Creator</h2>
+      <p>
+        Created by a mind that believes immortality
+        exists in words, not bodies.
+        <br><br>
+        This platform is not a website —
+        it is a memory engine.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section>
+  <div class="container mission">
+    <h2>OUR MISSION</h2>
+    <p>
+      To build a timeless reading universe where
+      stories feel alive, chapters feel personal,
+      and every reader feels connected.
+    </p>
+
+    <div class="values">
+      <div class="value-box">
+        <i class="fas fa-book"></i>
+        <h4>Story First</h4>
+      </div>
+      <div class="value-box">
+        <i class="fas fa-layer-group"></i>
+        <h4>Chapter Depth</h4>
+      </div>
+      <div class="value-box">
+        <i class="fas fa-infinity"></i>
+        <h4>Timeless Design</h4>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-content">
+    <h3>Nazuro</h3>
+
+    <div class="socials">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-x-twitter"></i></a>
+      <a href="#"><i class="fab fa-discord"></i></a>
+    </div>
+
+    <div class="footer-bottom">
+      © 2025 Nazuro — Created by <b>Nazuro</b>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

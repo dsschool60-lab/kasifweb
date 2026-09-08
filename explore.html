@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explore - Nazuro</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+@media (max-width: 768px){
+
+  .nav{
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .logo{
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+
+  .link{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+  }
+
+  .link a{
+    margin: 0;
+    font-size: 14px;
+    padding: 6px 0;
+  }
+}
+@media (max-width: 480px){
+
+  .link{
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .link a{
+    font-size: 15px;
+  }
+}
+/* ================= GLOBAL ================= */
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  -webkit-user-select:none;
+  user-select:none;
+  font-family:'Rajdhani', sans-serif;
+  background:#050505;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+h1, h2, h3, .logo, .nav a, .filter-btn {
+    font-family: 'Audiowide', cursive;
+}
+
+/* ================= NAV ================= */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 40px;
+  background:rgba(0,0,0,0.8);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+.link a{
+  color:#aaa;
+  text-decoration:none;
+  margin-left:25px;
+  transition:0.3s;
+}
+.link a:hover{color:#fff; text-shadow:0 0 10px #fff;}
+
+/* ================= SEARCH & HERO ================= */
+.explore-hero {
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at center, #1a1a1a, #000);
+    text-align: center;
+    padding: 20px;
+}
+
+.explore-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #fff, #666);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.search-box {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 15px 50px 15px 20px;
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    font-size: 1.1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.search-box input:focus {
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    border-color: #fff;
+}
+
+.search-box i {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+/* ================= FILTERS ================= */
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0 50px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 25px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: transparent;
+    color: #888;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 0.9rem;
+}
+
+.filter-btn.active, .filter-btn:hover {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 0 15px rgba(255,255,255,0.5);
+}
+
+/* ================= GRID SYSTEM ================= */
+.grid-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px 100px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 40px;
+}
+
+.book-card {
+    position: relative;
+    height: 380px;
+    background: #111;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy effect */
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.book-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+    border-color: rgba(255,255,255,0.4);
+    z-index: 10;
+}
+
+.book-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: 0.5s;
+    opacity: 0.8;
+}
+
+.book-card:hover .book-img {
+    opacity: 0.4; /* Darken image on hover to show text */
+    transform: scale(1.1);
+}
+
+.card-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    transform: translateY(60px); /* Hide details initially */
+    transition: 0.4s;
+    background: linear-gradient(to top, #000 10%, transparent);
+}
+
+.book-card:hover .card-info {
+    transform: translateY(0);
+}
+
+.card-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 10px #000;
+}
+
+.card-info p {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-bottom: 15px;
+}
+
+.tags {
+    display: flex;
+    gap: 10px;
+}
+
+.tag {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    text-transform: uppercase;
+}
+
+/* ================= MUSIC BTN ================= */
+#musicBtn{
+  position:fixed;
+  bottom: 30px; right: 30px;
+  width:50px;height:50px;
+  border-radius:50%;
+  border:1px solid #333;
+  background:rgba(0,0,0,.8);
+  color:#fff;
+  cursor:pointer;
+  z-index:9999;
+  transition: 0.3s;
+}
+#musicBtn:hover{
+  border-color: #fff;
+  box-shadow: 0 0 15px rgba(255,255,255,0.2);
+}
+
+/* Animation for loading */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.book-card {
+    animation: fadeIn 0.8s ease backwards;
+}
+/* Stagger animations */
+.book-card:nth-child(1) { animation-delay: 0.1s; }
+.book-card:nth-child(2) { animation-delay: 0.2s; }
+.book-card:nth-child(3) { animation-delay: 0.3s; }
+.book-card:nth-child(4) { animation-delay: 0.4s; }
+.book-card:nth-child(5) { animation-delay: 0.5s; }
+
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<button id="musicBtn"><i class="fas fa-music"></i></button>
+<audio id="bgMusic" loop>
+  <source src="ambient-dark.mp3" type="audio/mp3">
+</audio>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="logo">Nazuro</div>
+  <div class="link">
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="book.html"><i class="fas fa-book"></i> Demo</a>
+    <a href="about.html"><i class="fas fa-envelope"></i> About</a>
+  </div>
+</header>
+
+
+<!-- BOOK GRID -->
+<section class="grid-container" id="bookGrid">
+    
+    <!-- Card 1 -->
+    <div class="book-card" data-category="fantasy">
+        <img src="lisa-buijteweg-19 (1).jpg" class="book-img" alt="Cover">
+        <div class="card-info">
+            <h3>Immortality</h3>
+            <p>The curse of living forever in a dying world.</p>
+            <div class="tags">
+                <span class="tag">Fantasy</span>
+                <span class="tag">Dark</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="book-card" data-category="horror">
+        <img src="mayleen.png" class="book-img" alt="Cover">
+        <div class="card-info">
+            <h3>Dark Verse</h3>
+            <p>Whispers from the void that should not be heard.</p>
+            <div class="tags">
+                <span class="tag">Horror</span>
+                <span class="tag">Thriller</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="book-card" data-category="scifi">
+        <img src="ruoxin-zhang-.jpg" class="book-img" alt="Cover">
+        <div class="card-info">
+            <h3>Void Soul</h3>
+            <p>A cybernetic soul lost in the digital matrix.</p>
+            <div class="tags">
+                <span class="tag">Sci-Fi</span>
+                <span class="tag">Cyberpunk</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="book-card" data-category="fantasy">
+        <img src="ruoxin-zhang-1.jpg" class="book-img" alt="Cover">
+        <div class="card-info">
+            <h3>Eternal</h3>
+            <p>Kings fall, but the throne remains.</p>
+            <div class="tags">
+                <span class="tag">Fantasy</span>
+                <span class="tag">Epic</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="book-card" data-category="scifi">
+        <img src="ruoxin-zhang-opal-ruoxin-zhang.jpg" class="book-img" alt="Cover">
+        <div class="card-info">
+            <h3>Opal</h3>
+            <p>The last gem of the galaxy.</p>
+            <div class="tags">
+                <span class="tag">Sci-Fi</span>
+                <span class="tag">Space</span>
+            </div>
+        </div>
+    </div>
+    
+     <!-- Card 6 -->
+    <div class="book-card" data-category="horror">
+        <img src="taekwon-kim-a-rang-6.jpg" class="book-img" alt="Cover">
+        <div class="card-info">
+            <h3>Blood Moon</h3>
+            <p>When the night never ends.</p>
+            <div class="tags">
+                <span class="tag">Horror</span>
+                <span class="tag">Vampire</span>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+// FILTER FUNCTIONALITY
+const filterBtns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.book-card');
+
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Remove active class from all
+        filterBtns.forEach(b => b.classList.remove('active'));
+        // Add active to clicked
+        btn.classList.add('active');
+        
+        const filterValue = btn.getAttribute('data-filter');
+
+        cards.forEach(card => {
+            if(filterValue === 'all' || card.getAttribute('data-category') === filterValue){
+                card.style.display = 'block';
+                // Reset animation
+                card.style.animation = 'none';
+                card.offsetHeight; /* trigger reflow */
+                card.style.animation = 'fadeIn 0.5s ease forwards';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
+
+// SEARCH FUNCTIONALITY
+const searchInput = document.getElementById('searchInput');
+
+searchInput.addEventListener('keyup', (e) => {
+    const term = e.target.value.toLowerCase();
+    
+    cards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        if(title.includes(term)){
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
+
+// MUSIC
+const music = document.getElementById("bgMusic");
+const btn = document.getElementById("musicBtn");
+let isPlaying = false;
+
+btn.addEventListener("click", () => {
+    if(isPlaying){
+        music.pause();
+        btn.innerHTML = '<i class="fas fa-music"></i>';
+    } else {
+        music.play();
+        btn.innerHTML = '<i class="fas fa-pause"></i>';
+    }
+    isPlaying = !isPlaying;
+});
+
+// CARD CLICK REDIRECT
+cards.forEach(card => {
+    card.addEventListener('click', () => {
+        window.location.href = 'read.html';
+    });
+});
+</script>
+</body>
+</html>
